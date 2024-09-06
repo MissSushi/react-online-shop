@@ -1,4 +1,10 @@
-const FormElements = () => {
+import { ProductApiItem } from "../views/ProductView";
+
+type FormElementsProps = {
+  product?: ProductApiItem;
+};
+
+const FormElements = ({ product }: FormElementsProps) => {
   return (
     <>
       <div className="flex flex-col w-full px-8">
@@ -11,7 +17,7 @@ const FormElements = () => {
           className="border rounded-lg p-1 bg-neutral-100/20"
           placeholder="T-Shirt, Kleid, Schuhe ..."
           required
-          //   :value="props.product?.productName"
+          defaultValue={product?.productName}
         />
 
         <label htmlFor="price" className="mb-1 mt-8">
@@ -23,7 +29,7 @@ const FormElements = () => {
           className="border rounded-lg p-1 bg-neutral-100/20"
           placeholder="50, 40, 3 ..."
           required
-          //   :value="props.product?.price"
+          defaultValue={product?.price}
         />
 
         <label htmlFor="productDescription" className="mb-1 mt-8">
@@ -34,7 +40,7 @@ const FormElements = () => {
           className="border rounded-lg h-28 p-1 bg-neutral-100/20"
           maxLength={600}
           required
-          //   :value="props.product?.description"
+          defaultValue={product?.description}
         ></textarea>
       </div>
     </>
