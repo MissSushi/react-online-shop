@@ -89,7 +89,7 @@ const ProductView = () => {
                   <td>
                     <div className="flex gap-4 justify-end my-2">
                       <a
-                        href={`/products/update/${entry.id}`}
+                        href={`/update-product/${entry.id}`}
                         className="text-slate-700 text-sm hover:text-slate-900"
                       >
                         Bearbeiten
@@ -112,4 +112,4 @@ const ProductView = () => {
   );
 };
 
-export { ProductView };
+export { ProductView, type ProductApiItem };
