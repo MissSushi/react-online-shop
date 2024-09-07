@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: "Inter";
+    src: url("InterVariable.woff2") format("woff");
+}
+
+html{
+    font-feature-settings: "dlig", "cv11", "cv06", "ss01", "ss02", "ss03";
+    letter-spacing: 1px;
+    color: theme("textColor.gray.800");
+    font-weight: 500;
+    margin: 1rem;
+}
+
+::selection {
+    background-color: theme("backgroundColor.slate.900");
+    color: theme("textColor.white");
+}
