@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { SuccessMessage } from "../components/SuccessMessage";
+import { useParams } from "react-router-dom";
+import { CancelButton } from "../components/CancelButton";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { FormElements } from "../components/FormElements";
 import { SubmitButton } from "../components/SubmitButton";
-import { CancelButton } from "../components/CancelButton";
-import { useParams } from "react-router-dom";
 import { ProductApiItem } from "./ProductView";
 
 type Status = "pending" | "success" | "error";
