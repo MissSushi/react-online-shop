@@ -66,14 +66,14 @@ const ProductView = () => {
   const data = useFetch();
   return (
     <>
-      <div className="bg-neutral-100 rounded-lg p-2 flex gap-8 h-full">
+      <div className="rounded-lg p-2 flex gap-8 h-full">
         <Navigation></Navigation>
 
         <div className="w-full">
-          <h1 className="font-bold text-3xl mb-8 text-slate-900">
+          <h1 className="font-bold border-b-2 border-black text-3xl mb-16 text-slate-900">
             Produktübersicht
           </h1>
-          <div className="border rounded-lg shadow-sm p-8 bg-white">
+          <div className="border border-gray-200 rounded-lg shadow-sm p-8 bg-white">
             <table className="w-full">
               <thead className="border-b-2 border-black text-left">
                 <tr>
