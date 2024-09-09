@@ -4,7 +4,7 @@ const Navigation = () => {
   const location = useLocation();
   return (
     <>
-      <nav className="min-w-72 ml-4 p-6 bg-white rounded-lg shadow-sm">
+      <nav className="min-w-72 ml-4 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
         <div className="rounded-full bg-gray-100 px-4 py-1 flex items-center mt-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
