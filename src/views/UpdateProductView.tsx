@@ -32,7 +32,6 @@ const UpdateProductView = () => {
           console.error(`error message: ${error.message}`);
         }
       }
-      return data;
     }
     getData();
     return () => {
@@ -55,81 +54,111 @@ const UpdateProductView = () => {
             Produkt bearbeiten
           </h1>
           <div className="border border-gray-200 rounded-lg px-8 py-8 shadow-sm bg-white">
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-
-                setStatus("pending");
-                const formData = new FormData(e.target as HTMLFormElement);
-                const name = formData.get("productName");
-                const price = formData.get("price");
-                const description = formData.get("productDescription");
-
-                if (
-                  typeof name !== "string" ||
-                  typeof price !== "string" ||
-                  typeof description !== "string"
-                ) {
-                  setStatus("error");
-                  return;
-                }
-
-                try {
-                  const response = await fetch(
-                    `http://localhost/api/items/${id}`,
-                    {
-                      method: "PUT",
-                      body: JSON.stringify({
-                        name: name,
-                        price: parseInt(price),
-                        description: description,
-                      }),
-                    }
-                  );
-
-                  if (!response.ok) {
-                    throw new Error("Response not ok.");
-                  }
-                  window.location.href = "/";
-                } catch (error) {
-                  setStatus("error");
-                }
-              }}
-            >
-              <div className="flex flex-col items-center">
-                <FormElements product={data}></FormElements>
-                <div className="flex flex-col sm:flex-row gap-8 mt-16">
-                  <SubmitButton className="relative">
-                    {status === "pending" ? (
-                      <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-950 overflow-hidden rounded-full">
-                        <svg
-                          className="animate-spin h-5 w-5 text-white"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                      </div>
-                    ) : null}
-                    Speichern
-                  </SubmitButton>
-                  <CancelButton>Abbrechen</CancelButton>
-                </div>
+            {!data ? (
+              <div className="flex items-center justify-center gap-2">
+                <svg
+                  className="animate-spin h-5 w-5 text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                <span>Lädt...</span>
               </div>
-            </form>
+            ) : (
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+
+                  setStatus("pending");
+                  const formData = new FormData(e.target as HTMLFormElement);
+                  const name = formData.get("productName");
+                  const price = formData.get("price");
+                  const description = formData.get("productDescription");
+                  const status = formData.get("status");
+
+                  if (
+                    typeof name !== "string" ||
+                    typeof price !== "string" ||
+                    typeof description !== "string" ||
+                    typeof status !== "string"
+                  ) {
+                    setStatus("error");
+                    return;
+                  }
+
+                  try {
+                    const response = await fetch(
+                      `http://localhost/api/items/${id}`,
+                      {
+                        method: "PUT",
+                        body: JSON.stringify({
+                          name: name,
+                          price: parseInt(price),
+                          description: description,
+                          status: parseInt(status),
+                        }),
+                      }
+                    );
+
+                    if (!response.ok) {
+                      throw new Error("Response not ok.");
+                    }
+                    window.location.href = "/";
+                  } catch (error) {
+                    setStatus("error");
+                  }
+                }}
+              >
+                <div className="flex flex-col items-center">
+                  <FormElements product={data}></FormElements>
+
+                  <div className="flex flex-col sm:flex-row gap-8 mt-16">
+                    <SubmitButton className="relative">
+                      {status === "pending" ? (
+                        <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-950 overflow-hidden rounded-full">
+                          <svg
+                            className="animate-spin h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                        </div>
+                      ) : null}
+                      Speichern
+                    </SubmitButton>
+                    <CancelButton>Abbrechen</CancelButton>
+                  </div>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>

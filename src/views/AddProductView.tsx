@@ -40,11 +40,13 @@ const AddproductView = () => {
                 const name = formData.get("productName");
                 const price = formData.get("price");
                 const description = formData.get("productDescription");
+                const status = formData.get("status");
 
                 if (
                   typeof name !== "string" ||
                   typeof price !== "string" ||
-                  typeof description !== "string"
+                  typeof description !== "string" ||
+                  typeof status !== "string"
                 ) {
                   setStatus("error");
                   return;
@@ -57,6 +59,7 @@ const AddproductView = () => {
                       name: name,
                       price: parseInt(price),
                       description: description,
+                      status: parseInt(status),
                     }),
                   });
 
