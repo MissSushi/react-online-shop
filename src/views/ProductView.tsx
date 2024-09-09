@@ -6,6 +6,7 @@ type ProductApiItem = {
   productName: string;
   description: string;
   price: number;
+  status: number;
 };
 
 const useFetch = () => {
@@ -22,6 +23,7 @@ const useFetch = () => {
         }
 
         const result = await response.json();
+
         setData(result);
       } catch (error) {
         if (error instanceof Error) {
@@ -81,18 +83,33 @@ const ProductView = () => {
                   <th>Name</th>
                   <th>Preis</th>
                   <th>Beschreibung</th>
+                  <th>Status</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 {data.map((entry) => {
                   return (
-                    <tr className="border-b-2 border-neutral-200">
+                    <tr
+                      className="border-b-2 border-neutral-200"
+                      key={entry["id"]}
+                    >
                       <td className="my-2">{entry["id"]}</td>
                       <td className="my-2">{entry["productName"]}</td>
                       <td className="my-2">{entry["price"]}€</td>
                       <td className="my-2 max-w-[5ch] truncate">
                         {entry["description"]}
+                      </td>
+                      <td>
+                        {entry["status"] === 0 ? (
+                          <div className="rounded-full px-2 py-1 text-sm text-red-700 bg-red-200 inline-block">
+                            Inaktiv
+                          </div>
+                        ) : (
+                          <div className="rounded-full px-2 py-1 text-sm text-green-700 bg-green-200 inline-block">
+                            Aktiv
+                          </div>
+                        )}
                       </td>
                       <td>
                         <div className="flex gap-4 justify-end my-2">
