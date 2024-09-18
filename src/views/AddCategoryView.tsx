@@ -1,20 +1,28 @@
-import { useState } from "react";
 import { CancelButton } from "../components/CancelButton";
 import { ErrorMessage } from "../components/ErrorMessage";
-import { FormElements } from "../components/FormElements";
 import { SubmitButton } from "../components/SubmitButton";
 import { SuccessMessage } from "../components/SuccessMessage";
 import { Navigation } from "../components/Navigation";
+import { FileUpload } from "../components/FileUpload";
+import { useState } from "react";
+import { type Status } from "./AddProductView";
 
-type Status = "pending" | "success" | "error";
+async function toBase64(file: File) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
+}
 
-const AddproductView = () => {
+const AddCategoryView = () => {
   const [status, setStatus] = useState<Status>();
   return (
     <>
       {status === "success" ? (
         <SuccessMessage className="max-w-3xl flex justify-center mx-auto mb-8">
-          Das Produkt wurde erfolgreich erstellt!
+          Die Kategorie wurde erfolgreich erstellt!
         </SuccessMessage>
       ) : null}
 
@@ -29,37 +37,36 @@ const AddproductView = () => {
         <div className="w-full">
           <div className="border border-gray-200 rounded-lg px-8 py-8 shadow-sm bg-white">
             <h1 className="font-bold text-3xl mb-16 text-slate-900">
-              Produkt erstellen
+              Kategorie erstellen
             </h1>
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
-
-                setStatus("pending");
                 const formData = new FormData(e.target as HTMLFormElement);
-                const name = formData.get("productName");
-                const price = formData.get("price");
-                const description = formData.get("productDescription");
+                const category = formData.get("categoryName");
                 const status = formData.get("status");
+                const description = formData.get("description");
+                const image = formData.get("dropzone-file");
 
                 if (
-                  typeof name !== "string" ||
-                  typeof price !== "string" ||
+                  typeof category !== "string" ||
+                  typeof status !== "string" ||
                   typeof description !== "string" ||
-                  typeof status !== "string"
+                  !(image instanceof File)
                 ) {
                   setStatus("error");
                   return;
                 }
+                const base64Image = await toBase64(image);
 
                 try {
                   const response = await fetch(
-                    "http://localhost/api/products",
+                    "http://localhost/api/categories/",
                     {
                       method: "POST",
                       body: JSON.stringify({
-                        name: name,
-                        price: parseInt(price),
+                        category: category,
+                        image: base64Image,
                         description: description,
                         status: parseInt(status),
                       }),
@@ -76,9 +83,60 @@ const AddproductView = () => {
                 }
               }}
             >
+              <div className="flex flex-row gap-16">
+                <div className="flex flex-col w-1/2">
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="categoryName"
+                      className="mb-1 font-semibold"
+                    >
+                      Kategorie
+                    </label>
+                    <input
+                      type="text"
+                      name="categoryName"
+                      className="border rounded-lg bg-neutral-100/20 p-2"
+                      placeholder="Kleidung, Elektronik, Spielzeug, ..."
+                      required
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label htmlFor="status" className="mb-1 mt-8 font-semibold">
+                      Status
+                    </label>
+                    <select
+                      id="status"
+                      name="status"
+                      className=" border border-gray-300 rounded-lg p-2 bg-neutral-100/20"
+                      required
+                    >
+                      <option value="1">Aktiv</option>
+                      <option value="0">Inaktiv</option>
+                    </select>
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="description"
+                      className="mb-1 mt-8 font-semibold"
+                    >
+                      Beschreibung
+                    </label>
+                    <textarea
+                      name="description"
+                      className="border rounded-lg h-40 p-2 bg-neutral-100/20"
+                      maxLength={600}
+                      required
+                    ></textarea>
+                  </div>
+                </div>
+                <FileUpload height="h-96" width="w-full"></FileUpload>
+              </div>
+
               <div className="flex flex-col items-center">
-                <FormElements></FormElements>
-                <div className="flex flex-col sm:flex-row gap-8 mt-16">
+                <div className="flex flex-col sm:flex-row gap-8 mt-24">
+                  <CancelButton>Abbrechen</CancelButton>
                   <SubmitButton className="relative">
                     {status === "pending" ? (
                       <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-950 overflow-hidden rounded-full">
@@ -104,9 +162,8 @@ const AddproductView = () => {
                         </svg>
                       </div>
                     ) : null}
-                    Produkt erstellen
+                    Kategorie erstellen
                   </SubmitButton>
-                  <CancelButton>Abbrechen</CancelButton>
                 </div>
               </div>
             </form>
@@ -117,4 +174,4 @@ const AddproductView = () => {
   );
 };
 
-export { AddproductView, type Status };
+export { AddCategoryView };

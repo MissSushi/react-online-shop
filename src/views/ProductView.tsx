@@ -33,7 +33,7 @@ const useFetch = (
   useEffect(() => {
     const abortController = new AbortController();
     async function getData() {
-      const url = new URL("/api/items", "http:localhost");
+      const url = new URL("/api/products", "http:localhost");
       url.searchParams.append("limit", limit.toString());
       url.searchParams.append("page", page.toString());
       url.searchParams.append("sortBy", sort);
@@ -72,7 +72,7 @@ async function deleteProduct(id: number) {
   if (!window.confirm("Möchten Sie das Produkt wirklich löschen?")) return;
   else {
     try {
-      const response = await fetch(`http://localhost/api/items/${id}`, {
+      const response = await fetch(`http://localhost/api/products/${id}`, {
         method: "DELETE",
         body: JSON.stringify({
           productId: id,
@@ -200,12 +200,12 @@ const ProductView = () => {
   );
   return (
     <>
-      <div className="rounded-lg p-2 flex gap-8 h-full">
+      <div className="rounded-lg p-2 flex h-full">
         <Navigation></Navigation>
 
         <div className="w-full">
           <div className="border border-gray-200 rounded-lg shadow-sm p-8 bg-white mb-8 flex flex-col">
-            <h1 className="font-bold border-b-2 border-black text-3xl mb-16 text-slate-900">
+            <h1 className="font-bold text-3xl mb-12 text-slate-900">
               Produktübersicht
             </h1>
             <div className="flex flex-row justify-between">
@@ -328,7 +328,8 @@ const ProductView = () => {
               <thead className="border-b-2 border-black text-left">
                 <tr>
                   <th>ID</th>
-                  <th>Name</th>
+                  <th>Produkt</th>
+                  <th>Kategorie</th>
                   <th>Preis</th>
                   <th>Beschreibung</th>
                   <th>Status</th>
@@ -346,6 +347,7 @@ const ProductView = () => {
                         >
                           <td className="my-2">{entry["id"]}</td>
                           <td className="my-2">{entry["productName"]}</td>
+                          <td className="my-2">Kleidung</td>
                           <td className="my-2">{entry["price"]}€</td>
                           <td className="my-2 max-w-[5ch] truncate">
                             {entry["description"]}
