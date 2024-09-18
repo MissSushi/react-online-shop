@@ -4,8 +4,8 @@ const Navigation = () => {
   const location = useLocation();
   return (
     <>
-      <nav className="min-w-72 ml-4 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-        <div className="rounded-full bg-gray-100 px-4 py-1 flex items-center mt-4">
+      <nav className="min-w-72 p-6 bg-slate-900 border border-gray-200 rounded-lg shadow-sm">
+        <div className="rounded-full bg-slate-300 px-4 py-1 flex items-center mt-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -22,12 +22,12 @@ const Navigation = () => {
           </svg>
           <span className="ml-2 font-semibold">Dashboard</span>
         </div>
-        <ul className="flex-col flex ml-4 mt-2 gap-4">
+        <ul className="flex-col flex ml-4 mt-2 gap-4 text-slate-500">
           <li>
             <Link
               to="/"
               className={
-                location.pathname === "/" ? "font-bold" : "hover:text-gray-700"
+                location.pathname === "/" ? "font-bold" : "hover:text-slate-400"
               }
             >
               Produktübersicht
@@ -35,7 +35,7 @@ const Navigation = () => {
           </li>
         </ul>
         {/* <div className="border-t-4 border-dotted border-gray-400 my-6 ml-4 border-"></div> */}
-        <div className="rounded-full bg-gray-100 px-4 py-1 flex items-center mt-8">
+        <div className="rounded-full bg-slate-300 px-4 py-1 flex items-center mt-8">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -53,17 +53,29 @@ const Navigation = () => {
 
           <span className=" ml-2 font-semibold">Administration</span>
         </div>
-        <ul className="flex-col flex ml-4 mt-2 mb-4 gap-4">
+        <ul className="flex-col flex ml-4 mt-4 mb-4 gap-4 text-slate-500">
           <li>
             <Link
               to="/add-product"
               className={
                 location.pathname === "/add-product"
                   ? "font-bold"
-                  : "hover:text-gray-700"
+                  : "hover:text-slate-400"
               }
             >
-              Produkt hinzufügen
+              Produkt erstellen
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/add-category"
+              className={
+                location.pathname === "/add-category"
+                  ? "font-bold"
+                  : "hover:text-slate-400"
+              }
+            >
+              Kategorie erstellen
             </Link>
           </li>
         </ul>

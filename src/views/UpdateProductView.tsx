@@ -17,7 +17,7 @@ const UpdateProductView = () => {
     const abortController = new AbortController();
     async function getData() {
       try {
-        const response = await fetch(`http://localhost/api/items/${id}`, {
+        const response = await fetch(`http://localhost/api/products/${id}`, {
           signal: abortController.signal,
         });
         if (!response.ok) {
@@ -47,13 +47,13 @@ const UpdateProductView = () => {
         </ErrorMessage>
       ) : null}
 
-      <div className="rounded-lg p-2 flex gap-8 h-full">
+      <div className="rounded-lg p-2 flex h-full">
         <Navigation></Navigation>
         <div className="w-full">
-          <h1 className="font-bold text-3xl mb-16 text-slate-900 border-b-2 border-black">
-            Produkt bearbeiten
-          </h1>
           <div className="border border-gray-200 rounded-lg px-8 py-8 shadow-sm bg-white">
+            <h1 className="font-bold text-3xl mb-16 text-slate-900">
+              Produkt bearbeiten
+            </h1>
             {!data ? (
               <div className="flex items-center justify-center gap-2">
                 <svg
@@ -102,7 +102,7 @@ const UpdateProductView = () => {
 
                   try {
                     const response = await fetch(
-                      `http://localhost/api/items/${id}`,
+                      `http://localhost/api/products/${id}`,
                       {
                         method: "PUT",
                         body: JSON.stringify({

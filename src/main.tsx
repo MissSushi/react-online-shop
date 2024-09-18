@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AddproductView } from "./views/AddProductView";
 import { ProductView } from "./views/ProductView";
 import { UpdateProductView } from "./views/UpdateProductView";
+import { AddCategoryView } from "./views/AddCategoryView";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/update-product/:id",
     element: <UpdateProductView />,
+  },
+  {
+    path: "/add-category",
+    element: <AddCategoryView />,
   },
 ]);
 
