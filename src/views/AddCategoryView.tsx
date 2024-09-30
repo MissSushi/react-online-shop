@@ -64,6 +64,9 @@ const AddCategoryView = () => {
                     "http://localhost/api/categories/",
                     {
                       method: "POST",
+                      headers: {
+                        "Content-Type": "application/json"
+                      },
                       body: JSON.stringify({
                         category: category,
                         image: base64Image,

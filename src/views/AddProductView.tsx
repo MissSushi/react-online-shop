@@ -63,6 +63,9 @@ const AddproductView = () => {
                         description: description,
                         status: parseInt(status),
                       }),
+                      headers: {
+                        "Content-Type": "application/json"
+                      }
                     }
                   );
 
