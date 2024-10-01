@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ProductApiItem } from "../views/ProductView";
 
 type FormElementsProps = {
@@ -5,6 +6,37 @@ type FormElementsProps = {
 };
 
 const FormElements = ({ product }: FormElementsProps) => {
+  const [categories, setCategories] = useState([]);
+  
+  useEffect (() => {
+
+    const abortController = new AbortController();
+    async function getData() {
+      try {
+        const response = await fetch("http://localhost/api/categories", {
+          signal: abortController.signal,
+        });
+        if (!response.ok) {
+          throw new Error("Response not ok.");
+        }
+        const result = await response.json();
+        setCategories(result);
+
+      } catch (error) {
+        if (error instanceof Error) {
+          if (error.name === "AbortError") return;
+          console.error(`error message: ${error.message}`);
+        }
+      }
+    }
+    console.log(getData());
+    return () => {
+      abortController.abort();
+    };
+
+  }, [])
+
+  
   return (
     <>
       <div className="flex flex-col w-full px-8">
@@ -22,7 +54,7 @@ const FormElements = ({ product }: FormElementsProps) => {
               defaultValue={product?.productName}
             />
           </div>
-
+        
           <div className="flex flex-col w-1/2">
             <label htmlFor="category" className="mb-1 font-semibold">
               Kategorie
@@ -33,7 +65,18 @@ const FormElements = ({ product }: FormElementsProps) => {
               className="border border-gray-300 rounded-lg p-2 bg-neutral-100/20"
               required
             >
-              <option>Kleidung</option>
+              <option value="">Bitte wählen</option>
+              {categories.length > 0 ? categories.map((category) => {
+                return (
+                  <option
+                  key={category["id"]}
+                  value={category["id"]}
+                >
+                  {category["name"]}{category["status"] === 0 ? " (Inaktiv)" : " (Aktiv)"}
+                </option>
+              )
+              }) : "Keine Kategorien vorhanden."}
+              
             </select>
           </div>
         </div>

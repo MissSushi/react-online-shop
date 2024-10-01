@@ -41,12 +41,14 @@ const AddproductView = () => {
                 const price = formData.get("price");
                 const description = formData.get("productDescription");
                 const status = formData.get("status");
+                const categoryId = formData.get("category");
 
                 if (
                   typeof name !== "string" ||
                   typeof price !== "string" ||
                   typeof description !== "string" ||
-                  typeof status !== "string"
+                  typeof status !== "string" ||
+                  typeof categoryId !== "string"
                 ) {
                   setStatus("error");
                   return;
@@ -57,15 +59,16 @@ const AddproductView = () => {
                     "http://localhost/api/products",
                     {
                       method: "POST",
+                      headers: {
+                        "Content-Type": "application/json"
+                      },
                       body: JSON.stringify({
                         name: name,
                         price: parseInt(price),
                         description: description,
                         status: parseInt(status),
-                      }),
-                      headers: {
-                        "Content-Type": "application/json"
-                      }
+                        categoryId: parseInt(categoryId)
+                      })
                     }
                   );
 
