@@ -22,7 +22,7 @@ const FormElements = ({ product }: FormElementsProps) => {
         const result = await response.json();
         setCategories(result);
 
-      } catch (error) {
+      } catch (error) { 
         if (error instanceof Error) {
           if (error.name === "AbortError") return;
           console.error(`error message: ${error.message}`);
@@ -51,7 +51,7 @@ const FormElements = ({ product }: FormElementsProps) => {
               className="border rounded-lg bg-neutral-100/20 p-2"
               placeholder="T-Shirt, Kleid, Schuhe ..."
               required
-              defaultValue={product?.productName}
+              defaultValue={product?.name}
             />
           </div>
         

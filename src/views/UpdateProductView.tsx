@@ -105,6 +105,9 @@ const UpdateProductView = () => {
                       `http://localhost/api/products/${id}`,
                       {
                         method: "PUT",
+                        headers: {
+                          "Content-Type": "application/json"
+                        },
                         body: JSON.stringify({
                           name: name,
                           price: parseInt(price),
