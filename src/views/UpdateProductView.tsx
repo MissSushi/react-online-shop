@@ -9,10 +9,18 @@ import { Navigation } from "../components/Navigation";
 
 type Status = "pending" | "success" | "error";
 
+type CategoriesProps = {
+  id: number,
+  status: number,
+  name: string
+}
+
 const UpdateProductView = () => {
   const { id } = useParams();
   const [status, setStatus] = useState<Status>();
   const [data, setData] = useState<ProductApiItem>();
+  const [categories, setCategories] = useState<CategoriesProps[]>();
+
   useEffect(() => {
     const abortController = new AbortController();
     async function getData() {
@@ -38,6 +46,34 @@ const UpdateProductView = () => {
       abortController.abort();
     };
   }, []);
+  
+  useEffect (() => {
+    const abortController = new AbortController();
+    async function getData() {
+      try {
+        const response = await fetch("http://localhost/api/categories", {
+          signal: abortController.signal,
+        });
+        if (!response.ok) {
+          throw new Error("Response not ok.");
+        }
+        const result = await response.json();
+        setCategories(result);
+
+      } catch (error) { 
+        if (error instanceof Error) {
+          if (error.name === "AbortError") return;
+          console.error(`error message: ${error.message}`);
+        }
+      }
+    }
+    getData()
+    return () => {
+      abortController.abort();
+    };
+
+  }, [])
+
 
   return (
     <>
@@ -54,7 +90,7 @@ const UpdateProductView = () => {
             <h1 className="font-bold text-3xl mb-16 text-slate-900">
               Produkt bearbeiten
             </h1>
-            {!data ? (
+            {!data || !categories ? (
               <div className="flex items-center justify-center gap-2">
                 <svg
                   className="animate-spin h-5 w-5 text-black"
@@ -127,7 +163,7 @@ const UpdateProductView = () => {
                 }}
               >
                 <div className="flex flex-col items-center">
-                  <FormElements product={data}></FormElements>
+                  <FormElements product={data} categories={categories}></FormElements>
 
                   <div className="flex flex-col sm:flex-row gap-8 mt-16">
                     <SubmitButton className="relative">
@@ -169,4 +205,4 @@ const UpdateProductView = () => {
   );
 };
 
-export { UpdateProductView };
+export { UpdateProductView, type CategoriesProps};

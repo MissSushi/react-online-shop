@@ -9,6 +9,7 @@ type ProductApiItem = {
   description: string;
   price: number;
   status: number;
+  category_id: number
 };
 
 type PaginationApiResult = {

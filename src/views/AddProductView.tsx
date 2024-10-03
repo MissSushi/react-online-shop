@@ -1,15 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CancelButton } from "../components/CancelButton";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { FormElements } from "../components/FormElements";
 import { SubmitButton } from "../components/SubmitButton";
 import { SuccessMessage } from "../components/SuccessMessage";
 import { Navigation } from "../components/Navigation";
+import { CategoriesProps } from "./UpdateProductView";
 
 type Status = "pending" | "success" | "error";
 
 const AddproductView = () => {
   const [status, setStatus] = useState<Status>();
+  const [categories, setCategories] = useState<CategoriesProps[]>();
+
+  useEffect (() => {
+    const abortController = new AbortController();
+    async function getData() {
+      try {
+        const response = await fetch("http://localhost/api/categories", {
+          signal: abortController.signal,
+        });
+        if (!response.ok) {
+          throw new Error("Response not ok.");
+        }
+        const result = await response.json();
+        setCategories(result);
+
+      } catch (error) { 
+        if (error instanceof Error) {
+          if (error.name === "AbortError") return;
+          console.error(`error message: ${error.message}`);
+        }
+      }
+    }
+    getData()
+    return () => {
+      abortController.abort();
+    };
+
+  }, [])
+
   return (
     <>
       {status === "success" ? (
@@ -31,6 +61,31 @@ const AddproductView = () => {
             <h1 className="font-bold text-3xl mb-16 text-slate-900">
               Produkt erstellen
             </h1>
+            {!categories ? (
+              <div className="flex items-center justify-center gap-2">
+                <svg
+                  className="animate-spin h-5 w-5 text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                <span>Lädt...</span>
+              </div>
+            ) : (
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -80,10 +135,10 @@ const AddproductView = () => {
                 } catch (error) {
                   setStatus("error");
                 }
-              }}
+            }}
             >
               <div className="flex flex-col items-center">
-                <FormElements></FormElements>
+                <FormElements categories={categories}></FormElements>
                 <div className="flex flex-col sm:flex-row gap-8 mt-16">
                   <SubmitButton className="relative">
                     {status === "pending" ? (
@@ -115,7 +170,7 @@ const AddproductView = () => {
                   <CancelButton>Abbrechen</CancelButton>
                 </div>
               </div>
-            </form>
+            </form>)}
           </div>
         </div>
       </div>
