@@ -5,7 +5,7 @@ import { Pagination } from "../components/Pagination";
 
 type ProductApiItem = {
   id: number;
-  productName: string;
+  name: string;
   description: string;
   price: number;
   status: number;
@@ -346,7 +346,7 @@ const ProductView = () => {
                           key={entry["id"]}
                         >
                           <td className="my-2">{entry["id"]}</td>
-                          <td className="my-2">{entry["productName"]}</td>
+                          <td className="my-2">{entry["name"]}</td>
                           <td className="my-2">Kleidung</td>
                           <td className="my-2">{entry["price"]}€</td>
                           <td className="my-2 max-w-[5ch] truncate">
