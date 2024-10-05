@@ -125,12 +125,14 @@ const UpdateProductView = () => {
                   const price = formData.get("price");
                   const description = formData.get("productDescription");
                   const status = formData.get("status");
+                  const categoryId = formData.get("category")
 
                   if (
                     typeof name !== "string" ||
                     typeof price !== "string" ||
                     typeof description !== "string" ||
-                    typeof status !== "string"
+                    typeof status !== "string" ||
+                    typeof categoryId !== "string"
                   ) {
                     setStatus("error");
                     return;
@@ -149,6 +151,7 @@ const UpdateProductView = () => {
                           price: parseInt(price),
                           description: description,
                           status: parseInt(status),
+                          categoryId: parseInt(categoryId),
                         }),
                       }
                     );
