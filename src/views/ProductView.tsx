@@ -9,7 +9,8 @@ type ProductApiItem = {
   description: string;
   price: number;
   status: number;
-  category_id: number
+  category_id: number;
+  category_name: string;
 };
 
 type PaginationApiResult = {
@@ -332,15 +333,12 @@ const ProductView = () => {
                   <th>Produkt</th>
                   <th>Kategorie</th>
                   <th>Preis</th>
-                  <th>Beschreibung</th>
                   <th>Status</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {data.products === null
-                  ? "keine Einträge"
-                  : data.products.map((entry) => {
+                {data.products.map((entry) => {
                       return (
                         <tr
                           className="border-b-2 border-neutral-200"
@@ -348,11 +346,8 @@ const ProductView = () => {
                         >
                           <td className="my-2">{entry["id"]}</td>
                           <td className="my-2">{entry["name"]}</td>
-                          <td className="my-2">Kleidung</td>
+                          <td className="my-2">{entry["category_name"]}</td>
                           <td className="my-2">{entry["price"]}€</td>
-                          <td className="my-2 max-w-[5ch] truncate">
-                            {entry["description"]}
-                          </td>
                           <td>
                             {entry["status"] === 0 ? (
                               <div className="rounded-full px-2 py-1 text-sm text-red-700 bg-red-200 inline-block">
