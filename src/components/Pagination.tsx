@@ -17,7 +17,11 @@ const Pagination = ({
   count,
   page,
 }: PaginationProps) => {
-  const minItemCount = limit * (page - 1) + 1;
+  let minItemCount = 0;
+  // if page is 1 and count is 0 then keep count at 0, because it means there is no entries.
+  if  (page !== 1 || count !== 0) {
+    minItemCount = limit * (page - 1) + 1;
+  }
   const maxItemCount = Math.min(limit * page, count);
 
   return (
